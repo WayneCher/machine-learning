@@ -19,7 +19,7 @@ def scatter_plot(x,y,size = 10, marker = '*', color = 'red'):
     plt.scatter(x,y,s = size, marker = marker, c = color)
     plt.xlabel('Population in 10,000s')
     plt.ylabel('Profit in $10,000s')
-    plt.plot(x, 3.5 + 0.7 * x)
+    plt.plot(x, 4.7 + 0.59 * x)
     plt.show()
     
 row_num = df.Profit.size
@@ -56,7 +56,7 @@ def plot(x,y):
     plt.show()
 
 # iteration = 30000
-alpha = 0.0001
+alpha = 0.01
 df_theta = pd.DataFrame(columns = ['theta0','theta1'])
 J1 = []
 theta0 = 0
@@ -74,6 +74,15 @@ plot(df_theta['theta0'].values,J1)
 the0 = df_theta['theta0'].values
 the1 = df_theta['theta1'].values
 print(the0[-1],the1[-1],len(the0),len(the1))
+
+# surface
+'''fig = plt.figure()
+X = np.array(the0)
+Y = np.array(the1)
+X,Y = np.meshgrid(X,Y)
+ax = plt.axes(projection = '3d')
+ax.plot_surface(X,Y,J(X,Y,x,y),rstride=1,cstride=1,cmap='viridis',edgecolor='none')
+plt.show()'''
 
 #contour flat
 X = np.array(the0)
@@ -94,6 +103,8 @@ Y = np.array(the1)
 X,Y = np.meshgrid(X,Y)
 ax.contour3D(X,Y,J(X,Y,x,y),50,cmap='binary')
 plt.show()
+
+
 
 
 
