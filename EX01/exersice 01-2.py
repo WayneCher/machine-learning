@@ -75,6 +75,15 @@ the0 = df_theta['theta0'].values
 the1 = df_theta['theta1'].values
 print(the0[-1],the1[-1],len(the0),len(the1))
 
+#contour flat
+X = np.array(the0)
+Y = np.array(the1)
+X,Y = np.meshgrid(X,Y)
+fig = plt.figure()
+plt.contourf(X,Y,J(X,Y,x,y))
+plt.contour(X,Y,J(X,Y,x,y))
+plt.show()
+
 # plot 3d
 fig = plt.figure()
 #ax = Axes3D(fig,auto_add_to_figure=False)
@@ -85,4 +94,7 @@ Y = np.array(the1)
 X,Y = np.meshgrid(X,Y)
 ax.contour3D(X,Y,J(X,Y,x,y),50,cmap='binary')
 plt.show()
+
+
+
 
