@@ -1,4 +1,4 @@
-# Real condition with non-zero of theta0 and theta1
+# Complete condition with non-zero of theta0 and theta1
 
 from matplotlib import pyplot as plt
 import numpy as np
@@ -55,7 +55,7 @@ def plot(x,y):
     plt.ylabel('J(theta)')
     plt.show()
 
-# iteration = 30000
+# iteration = 1500
 alpha = 0.01
 df_theta = pd.DataFrame(columns = ['theta0','theta1'])
 J1 = []
