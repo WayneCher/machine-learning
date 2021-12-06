@@ -44,17 +44,27 @@ class func(object):
     def sum_part(self,theta_flag = 0):
         sum = 0
         for i in range(self.row_num):
-            sum = sum + (np.sum(self.var[i][0:-1] * self.theta.T) - self.var[i][-1]) * self.var[i][theta_flag]
+            sum = sum + (np.sum(np.dot(self.var[i][0:-1], self.theta.T)) - self.var[i][-1]) * self.var[i][theta_flag]
         return sum / self.row_num
 
     def j(self):
         sum = 0
         for i in range(self.row_num):
-            sum = sum + np.power((np.sum(self.var[i][0:-1] * self.theta.T) - self.var[i][-1]),2)
+            sum = sum + np.power((np.sum(np.dot(self.var[i][0:-1], self.theta.T)) - self.var[i][-1]),2)
         return sum / (2 * self.row_num)
 
-
-
+def vali(df):
+    for index, row in df.iterrows():
+        if index == 0:
+            x = np.array(row[0:-1])
+            y = np.array(row[-1])
+        else:
+            x = np.row_stack((x,row[0:-1]))
+            y = np.row_stack((y,row[-1]))
+    x = np.insert(x, 0, values = np.ones((1,47)), axis = 1)
+    theta = np.dot((np.dot(np.linalg.inv(np.dot(x.T ,x)), x.T)),y)
+    return theta 
+        
         
     
     

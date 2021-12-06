@@ -41,10 +41,12 @@ def iter_fun(alpha = 0.01, count = 0):
 
 #main function
 if __name__ == '__main__':
-    val = iter_fun(count = 100)
-    counts = np.arange(1,101,1)
+    val = iter_fun(count = 20000)
+    counts = np.arange(1,20001,1)
+    print(val[1][-1])
     plot(counts, val[0], 'counts', 'J Value')
-    scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6]) 
+    scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6])
+    print(vali(df))
     
     
 
