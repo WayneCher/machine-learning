@@ -23,35 +23,34 @@ def plot(x, y, x_label, y_label):
     plt.show()
 
 
-# Derivative function
+#function
 class func(object):
 
-    def __init__(self, theta, var, row_num = 0):
+    def __init__(self, theta, x, y, row_num = 0, alpha = 0.01):
         theta = np.array(theta)
-        for index,row in var.iterrows():
-            if index == 0:
-                new_var = np.array(row)
-            else:
-                new_var = np.row_stack((new_var,row))
         new_var = np.insert(new_var, 0, values = np.ones((1,row_num)), axis = 1)
         self.theta = theta
-        self.var = new_var
+        self.x = x
+        self.y = y
         self.row_num = row_num
+        self.one = np.ones((1,row_num))
+        self.alpha = alpha
 
     def set_theta(self, new_theta):
         self.theta = new_theta
-        
-    def sum_part(self,theta_flag = 0):
-        sum = 0
-        for i in range(self.row_num):
-            sum = sum + (np.sum(np.dot(self.var[i][0:-1], self.theta.T)) - self.var[i][-1]) * self.var[i][theta_flag]
-        return sum / self.row_num
 
-    def j(self):
-        sum = 0
-        for i in range(self.row_num):
-            sum = sum + np.power((np.sum(np.dot(self.var[i][0:-1], self.theta.T)) - self.var[i][-1]),2)
-        return sum / (2 * self.row_num)
+    def com_theta(self):
+        # compute hx
+        N = np.dot(x, self.theta)
+        Hx = 1 / (self.one + np.e**N)
+        # compute theta
+        sum_part = np.dot((Hx - self.y).T ,self.x)
+        new_theta = self.theta - self.alpha / self.row_num * sum_part
+        # compute J
+        sum_part = np.sum((self.y * np.log(Hx) + (self.one - y) * np.log(self.one - Hx)), axis = 1)
+        j_val = -1 / self.row_num * sum_part
+        return new_theta, j_val
+        
 
 def vali(df):
     for index, row in df.iterrows():
@@ -61,7 +60,7 @@ def vali(df):
         else:
             x = np.row_stack((x,row[0:-1]))
             y = np.row_stack((y,row[-1]))
-    x = np.insert(x, 0, values = np.ones((1,47)), axis = 1)
+    x = np.insert(x, 0, values = np.ones((1,100)), axis = 1)
     theta = np.dot((np.dot(np.linalg.inv(np.dot(x.T ,x)), x.T)),y)
     return theta 
         

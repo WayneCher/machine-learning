@@ -17,9 +17,11 @@ df = pd.read_csv(dir, sep = ',', names = ['Test1','Test2','Admin'])
 # Scatter plot the data
 
 row_num = df.Area.size
-x1 = df['Area'].values
-x2 = df['Bedroom'].values
-y = df['Price'].values
+x = df['Test1'].values
+x = np.column_stack((x, df['Test2'].values))
+y = df['Admin'].values
+row_num = y.shape[0]
+x = np.insert(x, 0, values = np.ones((1, x.shape[0])), axis = 1)
 
 # iteration
 def iter_fun(alpha = 0.01, count = 0):
@@ -27,14 +29,12 @@ def iter_fun(alpha = 0.01, count = 0):
     theta_val = np.zeros(df.shape[1])
     j_val = []
     #initialize J function
-
-    f = func(df_theta, df, row_num)
+    f = func(df_theta, x, y, row_num = row_num, alpha = alpha)
     for i in range(count):   
-        j_val.append(f.j())
-        for i in range(len(df_theta)):
-            df_theta[i] = df_theta[i] - alpha * f.sum_part(i)
-        theta_val = np.row_stack((theta_val, df_theta))
-        f.set_theta(df_theta)
+        val = f.com_theta()
+        theta_val = np.row_stack((theta_val, val[0]))
+        j_val.append(val[1])
+        f.set_theta(val[0])
     return j_val, theta_val
 
 #main function
