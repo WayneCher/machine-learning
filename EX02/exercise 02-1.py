@@ -44,7 +44,7 @@ if __name__ == '__main__':
     print(val[1][-1])
     plot(counts, val[0], 'counts', 'J Value')
     scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6])
-    print(vali(df))
+    print(vali(x, y))
     
     
 

@@ -45,7 +45,7 @@ if __name__ == '__main__':
     counts = np.arange(1,20001,1)
     print(val[1][-1])
     plot(counts, val[0], 'counts', 'J Value')
-    scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6])
+    scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [89.59, 139.21, -8.74])
     print(vali(df))
     
     

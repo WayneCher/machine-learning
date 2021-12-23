@@ -52,14 +52,7 @@ class func(object):
         return new_theta, j_val
         
 
-def vali(df):
-    for index, row in df.iterrows():
-        if index == 0:
-            x = np.array(row[0:-1])
-            y = np.array(row[-1])
-        else:
-            x = np.row_stack((x,row[0:-1]))
-            y = np.row_stack((y,row[-1]))
+def vali(x, y):
     x = np.insert(x, 0, values = np.ones((1,100)), axis = 1)
     theta = np.dot((np.dot(np.linalg.inv(np.dot(x.T ,x)), x.T)),y)
     return theta 
