@@ -28,34 +28,42 @@ class func(object):
 
     def __init__(self, theta, x, y, row_num = 0, alpha = 0.01):
         theta = np.array(theta)
-        new_var = np.insert(new_var, 0, values = np.ones((1,row_num)), axis = 1)
+        x = np.insert(x, 0, values = np.ones((1,row_num)), axis = 1)
         self.theta = theta
         self.x = x
         self.y = y
         self.row_num = row_num
-        self.one = np.ones((1,row_num))
         self.alpha = alpha
 
     def set_theta(self, new_theta):
         self.theta = new_theta
 
+    def sigmoid(self, n):
+        Hx = np.zeros(shape = (100 ,1))
+        i = 0
+        for x in n:
+            if x >= 0:
+                hx = 1 / (1 + np.exp(-x))
+            else:
+                hx = np.exp(x) / (1 + np.exp(x))
+            Hx[i] = hx
+            i += 1
+        return Hx
+        
     def com_theta(self):
         # compute hx
-        N = np.dot(x, self.theta)
-        Hx = 1 / (self.one + np.e**N)
+        N = np.dot(self.x, self.theta)
+        Hx = self.sigmoid(N)
         # compute theta
         sum_part = np.dot((Hx - self.y).T ,self.x)
-        new_theta = self.theta - self.alpha / self.row_num * sum_part
+        new_theta = self.theta - self.alpha / self.row_num * sum_part.T
         # compute J
-        sum_part = np.sum((self.y * np.log(Hx) + (self.one - y) * np.log(self.one - Hx)), axis = 1)
+        Hx = Hx + np.power(float(10),-5)
+        sum_part = np.sum((self.y * np.log(Hx) + (1 - self.y) * np.log(1 - Hx)))
         j_val = -1 / self.row_num * sum_part
         return new_theta, j_val
         
 
-def vali(x, y):
-    x = np.insert(x, 0, values = np.ones((1,100)), axis = 1)
-    theta = np.dot((np.dot(np.linalg.inv(np.dot(x.T ,x)), x.T)),y)
-    return theta 
         
         
     

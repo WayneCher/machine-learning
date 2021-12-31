@@ -16,35 +16,41 @@ df = pd.read_csv(dir, sep = ',', names = ['Test1','Test2','Admin'])
 
 # Scatter plot the data
 
-row_num = df.Area.size
+row_num = df.Test1.size
 x = df['Test1'].values
 x = np.column_stack((x, df['Test2'].values))
 y = df['Admin'].values
+y = y.reshape(len(y),1)
 row_num = y.shape[0]
-x = np.insert(x, 0, values = np.ones((1, x.shape[0])), axis = 1)
 
 # iteration
-def iter_fun(alpha = 0.01, count = 0):
-    df_theta = np.zeros(df.shape[1])
+def iter_fun(alpha = 0.41, count = 0):
+    df_theta = np.zeros((df.shape[1], 1))
     theta_val = np.zeros(df.shape[1])
     j_val = []
     #initialize J function
     f = func(df_theta, x, y, row_num = row_num, alpha = alpha)
-    for i in range(count):   
+    for i in range(count):
         val = f.com_theta()
-        theta_val = np.row_stack((theta_val, val[0]))
+        theta_val = np.row_stack((theta_val, val[0].T))
         j_val.append(val[1])
-        f.set_theta(val[0])
+        f.set_theta(val[0])     
     return j_val, theta_val
 
 #main function
 if __name__ == '__main__':
-    val = iter_fun(count = 20000)
-    counts = np.arange(1,20001,1)
-    print(val[1][-1])
-    plot(counts, val[0], 'counts', 'J Value')
-    scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6])
-    print(vali(x, y))
+    plt.ylim(30,100)
+    plt.scatter(df['Test1'].values, df['Test2'].values, c = df['Admin'].values)
+    x1 = np.arange(30, 101, 1)
+    plt.plot(x1, (-623 + 10.6 * x1) / 8.48)
+    plt.show()
+    val = iter_fun(count = 2000)
+    counts = np.arange(1,1001,1)
+    print('val',val[1][-1])
+    print('cost',val[0][-1])
+    #plot(counts, val[0], 'counts', 'J Value')
+    #scatter_plot(x1, x2, y, size = 20, marker = 'x', theta = [22.1,72.4,54.6])
+
     
     
 
