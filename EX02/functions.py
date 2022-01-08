@@ -54,12 +54,15 @@ class func(object):
         # compute hx
         N = np.dot(self.x, self.theta)
         Hx = self.sigmoid(N)
+        #print('HX',Hx)
         # compute theta
         sum_part = np.dot((Hx - self.y).T ,self.x)
         new_theta = self.theta - self.alpha / self.row_num * sum_part.T
         # compute J
-        Hx = Hx + np.power(float(10),-5)
-        sum_part = np.sum((self.y * np.log(Hx) + (1 - self.y) * np.log(1 - Hx)))
+        if np.isinf((np.log(1 - Hx)).any()) or np.isnan((np.log(1 - Hx)).any()):
+            sum_part = np.sum(self.y * np.log(Hx))
+        else:
+            sum_part = np.sum((self.y * np.log(Hx) + (1 - self.y) * np.log(1 - Hx)))
         j_val = -1 / self.row_num * sum_part
         return new_theta, j_val
         
